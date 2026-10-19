@@ -131,6 +131,16 @@ declare namespace NodeJS {
 
     /** Rate limit storage backend type ('in-memory' | 'redis'). */
     RATE_LIMIT_STORE_TYPE?: 'in-memory' | 'redis';
+    /** Upstash (or compatible) REST URL for the shared Redis rate-limit store. */
+    RATE_LIMIT_REDIS_URL?: string;
+    /** Bearer token for authenticating requests to the Upstash REST API. */
+    RATE_LIMIT_REDIS_TOKEN?: string;
+    /**
+     * Failure mode when the Redis rate-limit store is unreachable.
+     *   open   – allow the request (default; safe for read/low-risk tiers)
+     *   closed – consult local shadow bucket; deny when shadow is also empty
+     */
+    RATE_LIMIT_FAIL_MODE?: 'open' | 'closed';
     /** Maximum stream creation operations per organization per UTC day. */
     ORG_DAILY_STREAM_QUOTA_LIMIT?: string;
 

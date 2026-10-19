@@ -78,3 +78,16 @@ export function observeStreamsRequest(method: string, status: number, start: [nu
   const diff = process.hrtime(start);
   streamsDuration.observe(labels, diff[0] + diff[1] / 1e9);
 }
+
+// ── Rate-limit store health ──────────────────────────────────────────────────
+
+/**
+ * Incremented each time the shared Redis rate-limit store is unreachable
+ * (timeout, 5xx, network error).  When this spikes, the app is falling back
+ * to fail-open or the local shadow bucket.
+ */
+export const rateLimitStoreUnavailable = new Counter({
+  name: 'rate_limit_store_unavailable_total',
+  help: 'Total number of times the shared Redis rate-limit store was unavailable',
+  registers: [registry],
+});
